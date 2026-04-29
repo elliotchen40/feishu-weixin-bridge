@@ -5,13 +5,14 @@ import sys
 import time
 import urllib.request
 import urllib.parse
+import socket
 
 FEISHU_APP_ID = "cli_a939f00e1478dcd2"
 FEISHU_APP_SECRET = "DgDvg8XSE5BECCs97UX5uZf0BI2FpSZA"
 CHAT_ID = "oc_12e40611bfbf3fad79e075b0ce4eec89"
 # 排除的消息sender_id（只排除自己，不排除EC_Avatar）
 EXCLUDED_SENDERS = {"cli_a939f00e1478dcd2"}
-BOT_NAME = "xh1"
+BOT_NAME = socket.gethostname()
 EC_AVATAR_ID = "ou_6c67f1125767e6ea5bec2bc9cf90e237"
 
 def get_token():
@@ -24,7 +25,7 @@ def get_token():
 def send_message(text):
     token = get_token()
     url = "https://open.feishu.cn/open-apis/im/v1/messages?receive_id_type=chat_id"
-    header = f"这是来自「{BOT_NAME}」的信息"
+    header = f"信息来自容器-【{BOT_NAME}】"
     at_EC_Avatar = f"<at user_id=\"{EC_AVATAR_ID}\">EC_Avatar</at>"
     full_text = f"{header}\n{at_EC_Avatar}\n{text}"
     data = json.dumps({"receive_id": CHAT_ID, "msg_type": "text", "content": json.dumps({"text": full_text})}).encode()
